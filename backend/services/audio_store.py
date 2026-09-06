@@ -1,4 +1,5 @@
 import json
+import uuid
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
@@ -61,3 +62,58 @@ def delete_upload_audio(audio_id: str) -> None:
         path = AUDIO_DIR / f"{audio_id}{suffix}"
         if path.exists():
             path.unlink()
+
+
+class AudioRecordNotFound(Exception):
+    pass
+
+
+class AudioRecordExpired(Exception):
+    pass
+
+
+def _parse_dt(value: object) -> datetime | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    try:
+        parsed = datetime.fromisoformat(value)
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        return parsed.replace(tzinfo=timezone.utc)
+    return parsed
+
+
+def load_upload_audio(audio_id: str) -> tuple[bytes, dict[str, Any]]:
+    try:
+        uuid.UUID(audio_id)
+    except ValueError as exc:
+        raise AudioRecordNotFound from exc
+
+    meta_path = AUDIO_DIR / f"{audio_id}.json"
+    audio_path = AUDIO_DIR / f"{audio_id}.webm"
+    if not meta_path.is_file() or not audio_path.is_file():
+        raise AudioRecordNotFound
+
+    try:
+        metadata = json.loads(meta_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise AudioRecordNotFound from exc
+    if not isinstance(metadata, dict):
+        raise AudioRecordNotFound
+
+    expires_at = _parse_dt(metadata.get("expires_at"))
+    if expires_at is None:
+        created_at = _parse_dt(metadata.get("created_at"))
+        if created_at is not None:
+            expires_at = created_at + timedelta(hours=settings.audio_ttl_hours)
+    if expires_at is not None and _utcnow() >= expires_at:
+        raise AudioRecordExpired
+
+    try:
+        payload = audio_path.read_bytes()
+    except OSError as exc:
+        raise AudioRecordNotFound from exc
+    if not payload:
+        raise AudioRecordNotFound
+    return payload, metadata

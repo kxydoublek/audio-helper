@@ -18,4 +18,6 @@ def stage_for_path(path: str) -> str:
         return "health"
     if path.rstrip("/").endswith("/asr"):
         return "asr"
+    if path.rstrip("/").endswith("/extract"):
+        return "extract"
     return "unknown"

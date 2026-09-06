@@ -27,3 +27,24 @@ class HealthData(BaseModel):
 
 class UploadData(BaseModel):
     audio_id: str
+
+
+class AsrRequest(BaseModel):
+    audio_id: str = Field(min_length=1)
+
+
+class AsrData(BaseModel):
+    text: str
+
+
+class ExtractRequest(BaseModel):
+    text: str = Field(min_length=1)
+    city: str = Field(min_length=1)
+
+
+class ExtractData(BaseModel):
+    city_a: str
+    address_a: str
+    city_b: str
+    address_b: str
+    category: str

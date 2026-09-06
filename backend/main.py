@@ -6,6 +6,8 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
 
+from api.asr import router as asr_router
+from api.extract import router as extract_router
 from api.health import router as health_router
 from api.upload import router as upload_router
 from config import settings
@@ -48,7 +50,7 @@ def _error_response(
 
 @app.exception_handler(AppError)
 async def handle_app_error(request: Request, exc: AppError) -> JSONResponse:
-    logger.info(
+    logger.warning(
         "stage=%s request_id=%s error=%s reason=%s",
         exc.stage,
         get_request_id(request),
@@ -80,6 +82,8 @@ async def handle_validation_error(
 
 app.include_router(health_router)
 app.include_router(upload_router)
+app.include_router(asr_router)
+app.include_router(extract_router)
 
 
 @app.get("/", include_in_schema=False)

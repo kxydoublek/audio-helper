@@ -1,0 +1,21 @@
+.page {
+  max-width: 640px;
+  margin: 12vh auto 0;
+  padding: 0 24px;
+}
+
+.page h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+.page p {
+  margin: 0 0 8px;
+  color: #333;
+}
+
+.hint {
+  color: #6b6b6b;
+  font-size: 0.95rem;
+}

@@ -1,0 +1,14 @@
+:root {
+  color: #1a1a1a;
+  background: #f4f1ea;
+  font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
+  line-height: 1.6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}

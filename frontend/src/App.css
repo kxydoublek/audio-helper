@@ -1,7 +1,7 @@
 .page {
   max-width: 640px;
-  margin: 12vh auto 0;
-  padding: 0 24px;
+  margin: 8vh auto 0;
+  padding: 0 24px 48px;
 }
 
 .page h1 {
@@ -10,12 +10,99 @@
   margin: 0 0 12px;
 }
 
+.page h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
 .page p {
-  margin: 0 0 8px;
+  margin: 0 0 16px;
   color: #333;
 }
 
 .hint {
   color: #6b6b6b;
   font-size: 0.95rem;
+}
+
+.error {
+  color: #a33b2b;
+}
+
+.city-select {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 24px;
+  font-size: 0.95rem;
+}
+
+.city-select input {
+  flex: 1;
+  max-width: 220px;
+  padding: 8px 10px;
+  border: 1px solid #cfc8bb;
+  border-radius: 8px;
+  font: inherit;
+  background: #fff;
+}
+
+.record-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 180px;
+  height: 180px;
+  margin: 8px 0 16px;
+  border: 0;
+  border-radius: 50%;
+  background: #2c4a3e;
+  color: #fff;
+  font: inherit;
+  font-size: 1.05rem;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+  -webkit-user-select: none;
+}
+
+.record-button:hover {
+  background: #243f35;
+}
+
+.record-button.is-recording {
+  background: #a33b2b;
+}
+
+.record-limit {
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.recording-preview {
+  margin-top: 12px;
+  padding: 16px;
+  border: 1px solid #e2d9cc;
+  border-radius: 12px;
+  background: #fffdf8;
+}
+
+.recording-preview audio {
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.recording-preview .meta {
+  margin: 0 0 12px;
+  color: #6b6b6b;
+  font-size: 0.9rem;
+}
+
+.download {
+  color: #2c4a3e;
+  font-weight: 600;
 }
